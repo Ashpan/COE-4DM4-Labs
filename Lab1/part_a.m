@@ -21,7 +21,7 @@ zero_k_count = 0;
 ones_k_count = 0;
 theoretical_prob = 0.5.^(1:24);
 
-for time=1:1e4
+for time=1:4.3e6
     ls_bit = S(1,1); % Store the LSB into a variable
     ms_bit = S(1, 22); % Store the MSB into a variable
 
@@ -32,20 +32,32 @@ for time=1:1e4
     DATA_OUT(1,next_num) = ls_bit; % Store the output into DATA_OUT
     next_num = next_num + 1;
 
+    % If the zero k counter is between 1 and 24, and the LSB is 1,
+    % increment the value on the table and reset the zero k counter
     if (zero_k_count > 0 && zero_k_count < 25 && ls_bit == 1)
         zero_run_table(zero_k_count) = zero_run_table(zero_k_count) + 1;
         zero_k_count = 0;
     end
+
+    % If the ones k counter is between 1 and 24, and the LSB is 1,
+    % increment the value on the table and reset the ones k counter
+
     if (ones_k_count > 0 && ones_k_count < 25 && ls_bit == 0)
         ones_run_table(ones_k_count) = ones_run_table(ones_k_count) + 1;
         ones_k_count = 0;
     end
+
+    % If the LSB is 0, and the ones k counter is greater than 0, increment
+    % the value on the table and reset the counter to start counting zeros
     if (ls_bit == 0)
         if (ones_k_count > 0)
            ones_run_table(ones_k_count) = ones_run_table(ones_k_count) + 1;
         end
         ones_k_count = 0;
         zero_k_count = zero_k_count + 1;
+
+    % If the LSB is 1, and the zeros k counter is greater than 0, increment
+    % the value on the table and reset the counter to start counting ones
     else
         if (zero_k_count > 0)
             zero_run_table(zero_k_count) = zero_run_table(zero_k_count) + 1;
@@ -57,7 +69,7 @@ for time=1:1e4
     fprintf("here is the state-vector at time %g\n", time);
     fprintf("%g, ", S);
     fprintf("\n\n");
-
+    % Check if we have returned the S vector back to the origial state
     if (S == S_initial)
         fprintf("The state at time %g == the initial state; we are done\n", time);
         found_period = 1;
