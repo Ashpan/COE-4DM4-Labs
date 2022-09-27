@@ -1,9 +1,13 @@
+clear; clc;
+
 fileID = fopen('my_random_numbers.m','r');
 formatSpec = '%f';
 sizeA = [1 inf];
 rand_nums = fscanf(fileID,formatSpec,sizeA);
 
-A = imread("my_image.jpg");
+A = imread("my_image_2.jpg");
+image(uint8(A));
+pause;
 R_matrix = A(:,:,1); G_matrix = A(:,:,2); B_matrix = A(:,:,3);
 [rows,cols,depth] = size(A);
 RAND_matrix = zeros(rows,cols,depth);
@@ -22,6 +26,8 @@ for i = 1:rows
         end
     end
 end
+image(uint8(A_encrypted));
+pause;
 A_decrypted = zeros(rows,cols,depth);
 c = 1;
 for i = 1:rows
@@ -37,3 +43,4 @@ for i = 1:rows
         end
     end
 end
+image(uint8(A_decrypted))

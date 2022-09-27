@@ -2,28 +2,57 @@ clear;
 
 clc
 
-S = zeros(1, 22);
+S = zeros(1, 22); % Initialize the S vector
 
-S(1,1) = 1;
+S(1,1) = 1; % Create the seed by setting the LSB to 1
 
-DATA_OUT = zeros(1, 2^16);
+DATA_OUT = zeros(1, 2^16); % Initialize a DATA_OUT vector to a large size
 next_num = 1;
 
-S_initial = S;
+S_initial = S; % Create the initial S vector so we know when we have run for 1 period
 
 found_period = 0;
 period = 0;
 disp(S)
-for time=1:4.2e6
-    ls_bit = S(1,1);
-    ms_bit = S(1, 22);
 
-    S(1, 22) = S(1, 1);
-    S(1,1:20) = S(1,2:21);
-    S(1, 21) = xor(ls_bit, ms_bit);
+zero_run_table = zeros(1,24); %Initialize vectors for counting the zeros and ones runs
+ones_run_table = zeros(1,24);
+zero_k_count = 0;
+ones_k_count = 0;
+theoretical_prob = 0.5.^(1:24);
+
+for time=1:1e4
+    ls_bit = S(1,1); % Store the LSB into a variable
+    ms_bit = S(1, 22); % Store the MSB into a variable
+
+    S(1, 22) = S(1, 1); % Set the next state of the MSB to the current value of the LSB
+    S(1,1:20) = S(1,2:21); % Bit shift the bits from 2 to 21, to 1 to 20
+    S(1, 21) = xor(ls_bit, ms_bit); % XOR the LSB and the MSB together and set that to the 21st bit
     
-    DATA_OUT(1,next_num) = ls_bit;
+    DATA_OUT(1,next_num) = ls_bit; % Store the output into DATA_OUT
     next_num = next_num + 1;
+
+    if (zero_k_count > 0 && zero_k_count < 25 && ls_bit == 1)
+        zero_run_table(zero_k_count) = zero_run_table(zero_k_count) + 1;
+        zero_k_count = 0;
+    end
+    if (ones_k_count > 0 && ones_k_count < 25 && ls_bit == 0)
+        ones_run_table(ones_k_count) = ones_run_table(ones_k_count) + 1;
+        ones_k_count = 0;
+    end
+    if (ls_bit == 0)
+        if (ones_k_count > 0)
+           ones_run_table(ones_k_count) = ones_run_table(ones_k_count) + 1;
+        end
+        ones_k_count = 0;
+        zero_k_count = zero_k_count + 1;
+    else
+        if (zero_k_count > 0)
+            zero_run_table(zero_k_count) = zero_run_table(zero_k_count) + 1;
+        end
+        zero_k_count = 0;
+        ones_k_count = ones_k_count + 1;
+    end
 
     fprintf("here is the state-vector at time %g\n", time);
     fprintf("%g, ", S);
@@ -57,8 +86,24 @@ if (found_period == 1)
         fprintf("%g, ", integer);
     end
     fprintf("\n")
+    fid = fopen("my_random_numbers.m", "w");
+    fprintf(fid,"%3g, ", random_numbers);
+    fclose(fid);
 else
    fprintf("DID NOT FIND PERIOD! \n"); 
 end
-fid = fopen("my_random_numbers.m", "w");
-fprintf(fid,"%3g, ", random_numbers);
+
+zeros_cond_prob(1:24) = zero_run_table(1:24)/sum(zero_run_table);
+ones_cond_prob(1:24) = ones_run_table(1:24)/sum(ones_run_table);
+
+zeros_stats = [4,24];
+zeros_stats(1,1:24) = (1:24);
+zeros_stats(2,1:24) = zero_run_table;
+zeros_stats(3,1:24) = zeros_cond_prob;
+zeros_stats(4,1:24) = theoretical_prob;
+
+ones_stats = [4,24];
+ones_stats(1,1:24) = (1:24);
+ones_stats(2,1:24) = ones_run_table;
+ones_stats(3,1:24) = ones_cond_prob;
+ones_stats(4, 1:24) = theoretical_prob;
