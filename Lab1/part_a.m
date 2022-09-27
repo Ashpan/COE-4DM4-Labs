@@ -39,7 +39,7 @@ for time=1:4.3e6
         zero_k_count = 0;
     end
 
-    % If the ones k counter is between 1 and 24, and the LSB is 1,
+    % If the ones k counter is between 1 and 24, and the LSB is 0,
     % increment the value on the table and reset the ones k counter
 
     if (ones_k_count > 0 && ones_k_count < 25 && ls_bit == 0)
@@ -79,13 +79,17 @@ for time=1:4.3e6
 end
 
 if (found_period == 1)
+    %Printing out final data after the period has been found
     fprintf("\nFound period = %g clock ticks, here are the random bits\n", period);
     fprintf("%g, ", DATA_OUT(1,1:period));
     fprintf("\n\n");
     
     fprintf("Here is a decimal representation\n");
+    %Finding the number of total bytes in the period of the run
     num_bytes = floor(period/8);
-
+    
+    %Converting the DATA_OUT from an array of 8 bit binary numbers to its
+    %decimal representation
     random_numbers = zeros(1, 2^16/8);
     for j=1:num_bytes
         start_index = (j-1)*8+1;
@@ -105,6 +109,7 @@ else
    fprintf("DID NOT FIND PERIOD! \n"); 
 end
 
+%Creating the table for 0-runs and 1-runs occurences and probability
 zeros_cond_prob(1:24) = zero_run_table(1:24)/sum(zero_run_table);
 ones_cond_prob(1:24) = ones_run_table(1:24)/sum(ones_run_table);
 
