@@ -14,7 +14,7 @@ S_initial = S;
 found_period = 0;
 period = 0;
 disp(S)
-for time=1:5000000
+for time=1:4.2e6
     ls_bit = S(1,1);
     ms_bit = S(1, 22);
 
@@ -44,7 +44,8 @@ if (found_period == 1)
     
     fprintf("Here is a decimal representation\n");
     num_bytes = floor(period/8);
-    
+
+    random_numbers = zeros(1, 2^16/8);
     for j=1:num_bytes
         start_index = (j-1)*8+1;
         end_index = start_index+8-1;
@@ -52,10 +53,12 @@ if (found_period == 1)
         BITS = DATA_OUT(1,start_index:end_index);
         
         integer = bits2num(BITS);
+        random_numbers(1, j) = integer;
         fprintf("%g, ", integer);
     end
     fprintf("\n")
-    
 else
    fprintf("DID NOT FIND PERIOD! \n"); 
 end
+fid = fopen("my_random_numbers.m", "w");
+fprintf(fid,"%3g, ", random_numbers);
