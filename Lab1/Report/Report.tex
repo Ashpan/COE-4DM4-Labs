@@ -55,11 +55,15 @@
 	\subsection{A3}
 		Included at the end of the file is the first page of the randomly generated numbers from the LFSR.
 	\subsection{A4}
-		The formula for the conditional probability of a 0-run of length k occuring is given by:
+		The formula for the conditional probability of a 0-run and a 1-run of length k occuring is given by:
 		\begin{equation}
-			\frac{1}{2}^{k}
+			(\frac{1}{2})^{k}
 		\end{equation}
-		This equation can be explained by \ldots
+		Ideally the LFSR is used to create a perfectly random number using binary strings which are then converted to decimal. For a binary string to be completely random, each digit in the string must have a 50\% chance of being a 1, and 50\% chance for being a 0. The formula we have given follows this justification. For example, since a digit has a 50\% chance to be a 1. Any consecutive digits after will also have a 50\% chance of being 1, individually. Therefore for 1-run to be 3 digits long the probability can be calculated as such:
+		\begin{equation}
+			\frac{1}{2} * \frac{1}{2} * \frac{1}{2}
+		\end{equation}
+		The same probablility can be applied to a 0-run. This means for any 1-run or 0-run of k-length, the theoretical probability can be calculated by the formula given in (1).
 	\subsection{A5}
 		\includegraphics[width=\textwidth]{0_run_table}
 		Table 1: Table of 0-run lengths and their probabilities.
