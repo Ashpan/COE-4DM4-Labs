@@ -103,7 +103,7 @@ if (found_period == 1)
     end
     fprintf("\n")
     fid = fopen("my_random_numbers.m", "w");
-    fprintf(fid,"%3g, ", random_numbers);
+    fprintf(fid,"%3g ", random_numbers);
     fclose(fid);
 else
    fprintf("DID NOT FIND PERIOD! \n"); 
