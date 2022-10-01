@@ -64,12 +64,13 @@
 			\frac{1}{2} * \frac{1}{2} * \frac{1}{2}
 		\end{equation}
 		The same probablility can be applied to a 0-run. This means for any 1-run or 0-run of k-length, the theoretical probability can be calculated by the formula given in (1).
-	\subsection{A5}
+	\subsection{A5 and A6}
 		\includegraphics[width=\textwidth]{0_run_table}
 		Table 1: Table of 0-run lengths and their probabilities.
-	\subsection{A6}
+		\\ \\
 		\includegraphics[width=\textwidth]{1_run_table}
-		Table 2: Table of 1-run lengths and their probabilities.
+		Table 2: Table of 1-run lengths and their probabilities. \\ \\
+		Comparing the theoretical and conditional probability shows the formula found in (1) is accurate and can be used to correctly estimate the chance of a 1 or 0-run of k length occuring. When analyzing Table 1 and Table 2 there seems to be no discrepencies between conditional and theoretical probability. Although for most cases there are no differences, as k increases, some probabilities begin to differ, and cannot be seen due to significant digits being cutoff on the tables. These discrepencies can be attributed to system limitations. The conditional probability is calculated through the division of the number of observed 0 or 1-runs of length k, with the sum of all runs which have occured. This calculation may cause floating point errors as k increases creating very small numbers, causing MATLAB to calculate a number slightly different from the theoretical probability for certain values of k.
 \section{Part B}
 		\subsection{B2}
 			\begin{enumerate}
