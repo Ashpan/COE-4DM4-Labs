@@ -50,10 +50,10 @@
 \setlength{\parindent}{0pt}
 \setcounter{secnumdepth}{0}
 \section{Part (a): DAXPY Loop, No Unrolling, with No Scheduling}
-	\includegraphics[width=\textwidth]{2a}
+	\includegraphics[width=\textwidth]{2a-new}
 	Each iteration of this loop takes 23 clock cycles. The given clock speed is 3 GHz. The following equation can be used to calculate the MFLOP rating for this process.
 	\begin{equation}
-		\text{MFLOP Rating} = (3 \text{{Ghz}}) * \frac{1 \text{ FLOP}}{23 \text{ clock cycles}} = 130.4 \text{ MFLOP/s}
+		\text{MFLOP Rating} = (3 \text{{Ghz}}) * \frac{1 \text{ FLOP}}{21 \text{ clock cycles}} = 142.9 \text{ MFLOP/s}
 	\end{equation}
 	% \includegraphics[width=\textwidth]{A2}
 \section{Part (b): DAXPY Loop, No Unrolling, with Scheduling}
@@ -64,10 +64,10 @@
 	\end{equation}
 
 \section{Part (c): DAXPY Loop, with Unrolling, with No Scheduling}
-	\includegraphics[width=\textwidth]{2c}
+	\includegraphics[width=\textwidth]{2c-new}
 	Each iteration of this loop (unrolled 4 times) takes 64 clock cycles. The given clock speed is 3 GHz. The following equation can be used to calculate the MFLOP rating for this process.
 	\begin{equation}
-		\text{MFLOP Rating} = (3 \text{{Ghz}}) * \frac{1 \text{ FLOP}}{64 \text{ clock cycles}} = 46.9 \text{ MFLOP/s}
+		\text{MFLOP Rating} = (3 \text{{Ghz}}) * \frac{1 \text{ FLOP}}{63 \text{ clock cycles}} = 47.6 \text{ MFLOP/s}
 	\end{equation}
 
 \section{Part (d): DAXPY Loop, with Unrolling, with Scheduling}
